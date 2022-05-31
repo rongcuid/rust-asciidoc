@@ -1,0 +1,19 @@
+[package]
+name = "adoc-parser"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+lazy_static = "1"
+regex = "1"
+thiserror = "1"
+anyhow = "1"
+
+itertools = "0.10"
+
+adoc-line-scanner = { path = "../adoc-line-scanner" }
+
+[dev-dependencies]
+claim = "0.5"

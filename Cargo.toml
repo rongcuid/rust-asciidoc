@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "vscode-adoc-plus",
+    "adoc-line-scanner",
+    "adoc-parser",
+]

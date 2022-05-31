@@ -1,0 +1,49 @@
+= Asciidoc+
+
+== Goals
+
+* A minimal but polished Asciidoc extension
+** Does not mean featureless. Just means that no features that actively hinders writing
+* Context aware
+* Assists writing
+
+== Roadmap
+
+* [x] Skeleton
+* [x] Syntax highlighting
+** Through the official extension link:https://github.com/asciidoctor/asciidoctor-vscode[asciidoctor-vscode].
+* [ ] Tree view for sections
+** [ ] Document symbol provider
+** [ ] Block level movement
+* [ ] link:https://github.com/asciidoctor/asciidoctor.js[Asciidoctor.js] + link:https://github.com/day8/re-frame[re-frame] for preview
+** [ ] Double-click source sync
+** [ ] Relative path file finding
+* [ ] Incremental parsing through AsciidoctorJS
+** [ ] Preview through webview
+* [ ] UX improve
+** [ ] List support
+** [ ] Table editing support
+** [ ] Table formatting support
+** [ ] Local link preview
+** [ ] Image preview
+** [ ] Cross reference preview
+* [ ] Autocompletion
+** [ ] Images
+** [ ] Cross reference
+* [ ] Custom parser incremental drop in
+** [ ] Sections
+** [ ] Block elements
+** [ ] Attributes
+** [ ] Inline element parsing
+** [ ] Macros
+** [ ] Fault-tolerant parsing
+* [ ] Pandoc IR
+* [ ] Refactor
+** [ ] Split out LSP
+** [ ] Split out AST preview
+
+== Scratchpad
+
+[title="XXX\\YYY\"",]
+--
+--
