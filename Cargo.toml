@@ -1,7 +1,6 @@
 [workspace]
 
 members = [
-    "adoc-common",
     "adoc-line-scanner",
     "adoc-parser",
 ]
