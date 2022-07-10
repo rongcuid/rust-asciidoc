@@ -1,8 +1,6 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
+mod line_scanner;
+mod asciidoc_line;
+mod error;
+
+pub use line_scanner::LineScanner;
+pub use error::LineScannerError;
