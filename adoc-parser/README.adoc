@@ -17,6 +17,6 @@ An incremental, fault tolerant parser for Asciidoc.
 * [ ] Inline parser
 * [ ] Attributes
 * [ ] Fault tolerance
-* [ ] Minimum Levenshtein distance
-* [ ] Incremental parser
+* [ ] [.line-through]#Minimum Levenshtein distance#
+* [ ] [.line-through]#Incremental parser#
 * [ ] Reduce memory usage

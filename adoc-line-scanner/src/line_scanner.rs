@@ -85,7 +85,7 @@ impl<'a> LineScanner<'a> {
         loop {
             let line = self.peek();
             match line {
-                AsciidocLine::Line(line) => lines.push(line.to_owned()),
+                AsciidocLine::RegularLine(line) => lines.push(line.to_owned()),
                 AsciidocLine::EOF | AsciidocLine::Empty => break,
             }
             self.advance();
