@@ -1,19 +1,13 @@
+mod block_attribute;
 mod block_delimiter;
+mod comment_line;
+mod doc_attribute;
+mod passthrough_line;
+mod regular_line;
 
-use self::block_delimiter::BlockDelimiter;
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum AsciidocLine {
-    EOF,
-    /// An line containing nothing or only whitespace
-    Empty,
-    // DocAttribute(Attr),
-    /// A block attribute
-    // BlockAttribute(Vec<Attr>),
-    Delimiter(BlockDelimiter),
-    /// A line with regular substitutions
-    RegularLine(String),
-    /// A line that is not processed
-    PassthroughLine(String),
-    CommentLine(String),
-}
+pub use block_attribute::*;
+pub use block_delimiter::*;
+pub use comment_line::*;
+pub use doc_attribute::*;
+pub use passthrough_line::*;
+pub use regular_line::*;

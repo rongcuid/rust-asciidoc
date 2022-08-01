@@ -1,3 +1,3 @@
-pub enum LineScannerError {
+pub enum AsciidocLineError {
     Mismatch,
 }
