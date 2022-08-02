@@ -19,7 +19,10 @@ impl<'a> LineScanner<'a> {
     }
 }
 
-/// Public commands used by next-level parser/scanner
+impl<'a> LineScanner<'a> {
+}
+
+/// Commands used by next-level parser/scanner
 impl<'a> LineScanner<'a> {
     /// Cursor at a line containing only spaces. 
     /// Does not match EOF.
