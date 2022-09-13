@@ -3,7 +3,7 @@ use regex::Regex;
 
 use crate::multiparse::{MultiParse, VecSet};
 
-/// Line level token in document header.
+/// Line level token in document header, only minimally parsed.
 /// Only every produces the "head" types: i.e. only first wrapped lines are produced
 #[derive(Debug, PartialEq)]
 pub(crate) enum HeaderLineToken {
@@ -116,5 +116,6 @@ mod tests {
         expect_hl("John Smith", vec![Author("John Smith".to_owned())]);
         expect_hl(" John Smith", vec![Author("John Smith".to_owned())]);
         expect_hl("John Smith ", vec![Author("John Smith".to_owned())]);
+        expect_hl("John Smith <jsmith@example.com>", vec![Author("John Smith <jsmith@example.com>".to_owned())]);
     }
 }
