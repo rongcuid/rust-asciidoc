@@ -25,7 +25,7 @@ impl MultiParse for HeaderLineToken {
             static ref RE_TITLE: Regex = Regex::new(r"^=\s+(.+)$").unwrap();
             static ref RE_AUTHOR: Regex = Regex::new(r"^[^:=].*$").unwrap();
             static ref RE_ATTR: Regex =
-                Regex::new(r"^:(?P<unset1>!?)(?P<attr>\w[-\w])(?P<unset2>!?):(?P<value>\s+.+)?(?P<wrap>(\s\+)?(\s\\))?$")
+                Regex::new(r"^:(?:(?P<unset1>!))?(?P<attr>\w[-\w]+)(?:(?P<unset2>!))?:(?:\s+(?P<value>.+?))?(?:(?:\s+(?P<wrap>(\+\s+)?(\\))))?$")
                     .unwrap();
         }
         let mut possibilities = Vec::new();
@@ -95,6 +95,7 @@ pub(crate) enum LineTokenType {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use DocumentAttrWrap::*;
     use HeaderLineToken::*;
 
     fn expect_hl(input: &str, expected: Vec<HeaderLineToken>) {
@@ -116,6 +117,50 @@ mod tests {
         expect_hl("John Smith", vec![Author("John Smith".to_owned())]);
         expect_hl(" John Smith", vec![Author("John Smith".to_owned())]);
         expect_hl("John Smith ", vec![Author("John Smith".to_owned())]);
-        expect_hl("John Smith <jsmith@example.com>", vec![Author("John Smith <jsmith@example.com>".to_owned())]);
+        expect_hl(
+            "John Smith <jsmith@example.com>",
+            vec![Author("John Smith <jsmith@example.com>".to_owned())],
+        );
+    }
+
+    #[test]
+    fn attr_set_unset() {
+        expect_hl(
+            ":attr:",
+            vec![DocumentAttr {
+                attr: "attr".to_owned(),
+                unset: false,
+                value: None,
+                wrap: NoWrap,
+            }],
+        );
+        expect_hl(
+            ":!attr:",
+            vec![DocumentAttr {
+                attr: "attr".to_owned(),
+                unset: true,
+                value: None,
+                wrap: NoWrap,
+            }],
+        );
+        expect_hl(
+            ":attr!:",
+            vec![DocumentAttr {
+                attr: "attr".to_owned(),
+                unset: true,
+                value: None,
+                wrap: NoWrap,
+            }],
+        );
+        // FIXME: this is Asciidoctor's behavior. Wait for spec
+        expect_hl(
+            ":attr!:",
+            vec![DocumentAttr {
+                attr: "attr".to_owned(),
+                unset: true,
+                value: None,
+                wrap: NoWrap,
+            }],
+        );
     }
 }
