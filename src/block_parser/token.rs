@@ -7,6 +7,7 @@ use crate::multiparse::{MultiParse, VecSet};
 /// Only every produces the "head" types: i.e. only first wrapped lines are produced
 #[derive(Debug, PartialEq)]
 pub(crate) enum HeaderLineToken {
+    /// TODO: currently trims all spaces. Wait for spec!
     DocumentTitle(String),
     DocumentAttr {
         attr: String,
@@ -20,7 +21,7 @@ pub(crate) enum HeaderLineToken {
 impl MultiParse for HeaderLineToken {
     fn multiparse(s: &str) -> VecSet<Self> {
         lazy_static! {
-            static ref RE_TITLE: Regex = Regex::new(r"^=\s(.+)$").unwrap();
+            static ref RE_TITLE: Regex = Regex::new(r"^=\s+(.+)$").unwrap();
             static ref RE_ATTR: Regex =
                 Regex::new(r"^:(?P<unset1>!?)(?P<attr>\w[-\w])(?P<unset2>!?):(?P<value>\s+.+)?(?P<wrap>(\s\+)?(\s\\))?$")
                     .unwrap();
@@ -28,7 +29,8 @@ impl MultiParse for HeaderLineToken {
         let mut possibilities = Vec::new();
         // Document title
         if let Some(cap) = RE_TITLE.captures(s) {
-            possibilities.push(Self::DocumentTitle(cap[1].to_owned()));
+            // FIXME: wait until spec to see how to deal with spaces
+            possibilities.push(Self::DocumentTitle(cap[1].trim_end().to_owned()));
         }
         // Document attribute
         if let Some(cap) = RE_ATTR.captures(s) {
@@ -86,15 +88,8 @@ pub(crate) enum LineTokenType {
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::BTreeSet, fmt::Debug, iter::FromIterator};
-
     use super::*;
     use HeaderLineToken::*;
-
-    /// Simple set equivalence
-    fn set_eq<T: PartialEq>(a: &Vec<T>, b: &Vec<T>) -> bool {
-        b.iter().all(|item| a.contains(item))
-    }
 
     fn expect_hl(input: &str, expected: Vec<HeaderLineToken>) {
         let got = HeaderLineToken::multiparse(input);
@@ -107,5 +102,6 @@ mod tests {
         expect_hl("=", vec![]);
         expect_hl("= ", vec![]);
         expect_hl("= 中文", vec![DocumentTitle("中文".to_owned())]);
+        expect_hl("= = ()&*^%G", vec![DocumentTitle("= ()&*^%G".to_owned())]);
     }
 }
