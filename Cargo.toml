@@ -12,3 +12,6 @@ crate-type = ["lib", "cdylib", "staticlib"]
 thiserror = "1"
 
 unicode-segmentation = "1"
+itertools = "0.10"
+regex = "1"
+lazy_static = "1"

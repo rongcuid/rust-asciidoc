@@ -3,6 +3,7 @@ use super::{tag::Tag, BlockAttrMap, BlockMacroTag};
 pub enum BlockEvent {
     Start(Tag),
     End(Tag),
+    DocTitle(String),
     /// https://docs.asciidoctor.org/asciidoc/latest/attributes/document-attributes/
     DocAttribute {
         name: String,

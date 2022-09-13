@@ -9,46 +9,61 @@ pub enum Tag {
     DiscreteHeading(SectionLevel),
     /// https://docs.asciidoctor.org/asciidoc/latest/lists/unordered/
     UnorderedList {
+        level: u64,
         style: UnorderedListMarker,
     },
     /// https://docs.asciidoctor.org/asciidoc/latest/lists/ordered/
     OrderedList {
+        level: u64,
         start: i64,
         reversed: bool,
         style: OrderedListStyle,
     },
     /// https://docs.asciidoctor.org/asciidoc/latest/lists/checklist/
-    CheckList,
+    CheckList {
+        level: u64,
+    },
     /// https://docs.asciidoctor.org/asciidoc/latest/lists/description/
     DescriptionList {
+        level: u64,
         style: DescriptionListStyle,
     },
     /// https://docs.asciidoctor.org/asciidoc/latest/blocks/admonitions/
-    Admonition(AdmonitionLabel),
+    Admonition {
+        level: u64,
+        label: AdmonitionLabel,
+    },
     /// https://docs.asciidoctor.org/asciidoc/latest/blocks/sidebars/
-    Sidebar,
+    Sidebar {
+        level: u64,
+    },
     /// https://docs.asciidoctor.org/asciidoc/latest/blocks/example-blocks/
-    Example,
+    Example {
+        level: u64,
+    },
     /// https://docs.asciidoctor.org/asciidoc/latest/blocks/blockquotes/
     BlockQuote {
+        level: u64,
         attribution: Option<String>,
         title: Option<String>,
     },
     /// https://docs.asciidoctor.org/asciidoc/latest/blocks/verses/
     Verse {
+        level: u64,
         attribution: Option<String>,
         title: Option<String>,
     },
     /// https://docs.asciidoctor.org/asciidoc/latest/verbatim/source-blocks/
-    Source {
-        language: Option<String>,
-    },
     /// https://docs.asciidoctor.org/asciidoc/latest/verbatim/listing-blocks/
-    Listing,
+    Listing {
+        source: Option<String>,
+    },
     /// https://docs.asciidoctor.org/asciidoc/latest/verbatim/literal-blocks/
     Literal,
     /// https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/
-    Table,
+    Table {
+        level: u64,
+    },
     TableRow,
     TableCell,
     /// https://docs.asciidoctor.org/asciidoc/latest/stem/
