@@ -1,6 +1,11 @@
-[workspace]
+[package]
+name = "rust-asciidoc"
+version = "0.1.0"
+edition = "2021"
 
-members = [
-    "adoc-line-scanner",
-    "adoc-parser",
-]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+thiserror = "1"
+
+unicode-segmentation = "1"
