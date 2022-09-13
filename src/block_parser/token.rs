@@ -9,6 +9,7 @@ use crate::multiparse::{MultiParse, VecSet};
 pub(crate) enum HeaderLineToken {
     /// TODO: currently trims all spaces. Wait for spec!
     DocumentTitle(String),
+    Author(String),
     DocumentAttr {
         attr: String,
         unset: bool,
@@ -22,6 +23,7 @@ impl MultiParse for HeaderLineToken {
     fn multiparse(s: &str) -> VecSet<Self> {
         lazy_static! {
             static ref RE_TITLE: Regex = Regex::new(r"^=\s+(.+)$").unwrap();
+            static ref RE_AUTHOR: Regex = Regex::new(r"^[^:=].*$").unwrap();
             static ref RE_ATTR: Regex =
                 Regex::new(r"^:(?P<unset1>!?)(?P<attr>\w[-\w])(?P<unset2>!?):(?P<value>\s+.+)?(?P<wrap>(\s\+)?(\s\\))?$")
                     .unwrap();
@@ -31,6 +33,10 @@ impl MultiParse for HeaderLineToken {
         if let Some(cap) = RE_TITLE.captures(s) {
             // FIXME: wait until spec to see how to deal with spaces
             possibilities.push(Self::DocumentTitle(cap[1].trim_end().to_owned()));
+        }
+        if let Some(cap) = RE_AUTHOR.captures(s) {
+            // FIXME: wait until spec to see how to deal with spaces
+            possibilities.push(Self::Author(cap[0].trim().to_owned()));
         }
         // Document attribute
         if let Some(cap) = RE_ATTR.captures(s) {
@@ -103,5 +109,12 @@ mod tests {
         expect_hl("= ", vec![]);
         expect_hl("= 中文", vec![DocumentTitle("中文".to_owned())]);
         expect_hl("= = ()&*^%G", vec![DocumentTitle("= ()&*^%G".to_owned())]);
+    }
+
+    #[test]
+    fn author() {
+        expect_hl("John Smith", vec![Author("John Smith".to_owned())]);
+        expect_hl(" John Smith", vec![Author("John Smith".to_owned())]);
+        expect_hl("John Smith ", vec![Author("John Smith".to_owned())]);
     }
 }
